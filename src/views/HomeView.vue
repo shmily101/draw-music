@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="home-tip">Draw to create MUSIC!</div>
-    <div class="home-btn">
+    <div class="home-btn" @click="handleRouterDraw()">
       Start!
       <span></span>
       <span></span>
@@ -11,7 +11,17 @@
   </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts" setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const handleRouterDraw = () => {
+  router.push({
+    name: "draw",
+  });
+};
+</script>
 
 <style>
 .home {
@@ -54,6 +64,7 @@
   text-transform: uppercase;
   -webkit-font-smoothing: antialiased;
   padding: 10px 20px;
+  cursor: pointer;
 }
 .home-btn span:nth-child(1),
 .home-btn span:nth-child(2),
