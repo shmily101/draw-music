@@ -8,6 +8,8 @@
       @mousemove="handleMove"
       @mouseout="handleOverMove"
     />
+    <div @click="handlePre">上一步</div>
+    <div @click="handleNext">下一步</div>
   </div>
 </template>
 
@@ -80,6 +82,35 @@ const handleMove = (e) => {
   state.context.lineTo(canvasX, canvasY);
   // 绘制已定义的路径
   state.context.stroke();
+};
+
+// 上一步
+const handlePre = () => {
+  if (!state.preHandle.length) return false;
+  const pre = state.preHandle.pop();
+  // 把当前的canvas保存进下一步
+  const next = state.context?.getImageData(
+    0,
+    0,
+    palette.value?.width ?? 0,
+    palette.value?.height ?? 0
+  );
+  if (next) state.nextHandle.push(next);
+  if (pre) state.context?.putImageData(pre, 0, 0);
+};
+
+// 下一步
+const handleNext = () => {
+  if (!state.nextHandle.length) return false;
+  const next = state.nextHandle.pop();
+  const pre = state.context?.getImageData(
+    0,
+    0,
+    palette.value?.width ?? 0,
+    palette.value?.height ?? 0
+  );
+  if (pre) state.preHandle.push(pre);
+  if (next) state.context?.putImageData(next, 0, 0);
 };
 
 // 调整canvas大小并保留内容
