@@ -10,7 +10,16 @@
     />
     <div @click="handlePre">上一步</div>
     <div @click="handleNext">下一步</div>
-    <float-ball></float-ball>
+    <FloatBall>
+      <template #base>
+        <!-- 基础内容 -->
+        <div>base</div>
+      </template>
+      <template #extra>
+        <!-- 展开时显示的额外内容 -->
+        <div>更多内容...</div>
+      </template>
+    </FloatBall>
   </div>
 </template>
 

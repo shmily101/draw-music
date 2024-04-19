@@ -23,7 +23,7 @@ const handleRouterDraw = () => {
 };
 </script>
 
-<style>
+<style scoped>
 .home {
   width: 100vw;
   height: 85vh;

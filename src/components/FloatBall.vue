@@ -2,12 +2,20 @@
   <div
     ref="floatingBall"
     class="floating-ball"
+    :class="{ expanded: isExpanded }"
     :style="{ top: `${position.y}px`, left: `${position.x}px` }"
     @mousedown="startDrag"
+    @mouseover="isExpanded = true"
+    @mouseleave="isExpanded = false"
   >
-    <!-- 使用slot允许动态内容传入 -->
-    <div>1234</div>
-    <slot></slot>
+    <div class="content">
+      <slot name="base"></slot>
+      <!-- 基础内容插槽 -->
+    </div>
+    <div class="extra-content" v-show="isExpanded">
+      <slot name="extra"></slot>
+      <!-- 展开时的额外内容插槽 -->
+    </div>
   </div>
 </template>
 
@@ -16,6 +24,7 @@ import { ref, reactive, onMounted, onUnmounted } from "vue";
 
 const floatingBall = ref<HTMLElement | null>(null);
 const position = reactive({ x: 0, y: 30 });
+const isExpanded = ref(false); // 控制展开状态
 
 let start = { x: 0, y: 0 };
 
@@ -68,7 +77,7 @@ onUnmounted(() => {
 <style scoped>
 .floating-ball {
   position: fixed;
-  width: 50px;
+  min-width: 50px; /* 最小宽度 */
   height: 50px;
   background-color: #ffffff99;
   border-radius: 50%;
@@ -78,8 +87,25 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   text-align: center;
+  overflow: hidden;
 }
-.floating-ball:active {
-  cursor: grabbing;
+
+.floating-ball.expanded {
+  width: auto; /* 自动调整宽度 */
+  border-radius: 25px; /* 圆角矩形 */
+  padding: 0 20px; /* 添加一些内边距 */
+}
+
+.content,
+.extra-content {
+  white-space: nowrap; /* 防止内容换行 */
+}
+
+.extra-content {
+  display: none; /* 默认不显示额外内容 */
+}
+
+.floating-ball.expanded .extra-content {
+  display: block; /* 展开时显示额外内容 */
 }
 </style>
