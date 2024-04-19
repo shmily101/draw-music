@@ -149,6 +149,16 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", resizeCanvas);
 });
+
+const changeBackground = () => {
+  console.log("更换背景颜色");
+  console.log(document.getElementById("app")?.style);
+  const appElement = document.getElementById("app");
+  if (appElement) {
+    appElement.style.backgroundImage =
+      "linear-gradient(45deg, #6cc6cb 0%, #eae5c9 100%)";
+  }
+};
 </script>
 
 <style scoped>
