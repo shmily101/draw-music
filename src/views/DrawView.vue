@@ -10,11 +10,13 @@
     />
     <div @click="handlePre">上一步</div>
     <div @click="handleNext">下一步</div>
+    <float-ball></float-ball>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, onUnmounted, nextTick } from "vue";
+import FloatBall from "@/components/FloatBall.vue";
 
 const palette = ref<HTMLCanvasElement | null>(null);
 const state = reactive({
@@ -125,7 +127,7 @@ const resizeCanvas = () => {
     );
 
     palette.value.width = window.innerWidth;
-    palette.value.height = window.innerHeight * 0.8;
+    palette.value.height = window.innerHeight - 80;
     // 确保在DOM更新后重新绘制画布内容
     nextTick(() => {
       state.context?.putImageData(canvasData, 0, 0);
@@ -162,9 +164,14 @@ const changeBackground = () => {
 </script>
 
 <style scoped>
+.draw {
+  width: 100vw;
+  height: 100vh;
+}
+
 .palette {
   display: block; /* 移除默认的边距 */
   width: 100vw;
-  height: 80vh; /* 设置初始大小以避免闪烁 */
+  height: calc(100vh - 80px); /* 设置初始大小以避免闪烁 */
 }
 </style>
